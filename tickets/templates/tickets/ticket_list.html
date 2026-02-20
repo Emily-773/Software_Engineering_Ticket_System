@@ -1,0 +1,97 @@
+{% extends "tickets/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-start justify-content-between flex-wrap gap-2 mb-3">
+  <div>
+    <h1 class="h4 mb-1">{{ title }}</h1>
+    <div class="text-muted">Filter and manage tickets.</div>
+  </div>
+  <a class="btn btn-primary" href="{% url 'ticket_create' %}">Create Ticket</a>
+</div>
+
+<form class="card shadow-sm mb-3" method="get">
+  <div class="card-body">
+    <div class="row g-2 align-items-end">
+      <div class="col-12 col-md-3">
+        <label class="form-label">Status</label>
+        <select class="form-select" name="status">
+          <option value="">All</option>
+          {% for value,label in statuses %}
+            <option value="{{ value }}" {% if filters.status == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <label class="form-label">Category</label>
+        <select class="form-select" name="category">
+          <option value="">All</option>
+          {% for c in categories %}
+            <option value="{{ c.id }}" {% if filters.category == c.id|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <label class="form-label">Priority</label>
+        <select class="form-select" name="priority">
+          <option value="">All</option>
+          {% for p in priorities %}
+            <option value="{{ p.id }}" {% if filters.priority == p.id|stringformat:"s" %}selected{% endif %}>{{ p.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <label class="form-label">Search</label>
+        <input class="form-control" type="text" name="q" value="{{ filters.q }}" placeholder="Title, description, username">
+      </div>
+
+      <div class="col-12 d-flex gap-2 mt-2">
+        <button class="btn btn-outline-primary" type="submit">Apply Filters</button>
+        <a class="btn btn-outline-secondary" href="{% url 'ticket_list' %}">Clear</a>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Category</th>
+            <th>Reporter</th>
+            <th>Assignee</th>
+            <th class="text-end">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in tickets %}
+            <tr>
+              <td>{{ t.id }}</td>
+              <td><a href="{% url 'ticket_detail' t.id %}">{{ t.title }}</a></td>
+              <td><span class="badge bg-info text-dark">{{ t.status }}</span></td>
+              <td>{{ t.priority.name }}</td>
+              <td>{{ t.category.name }}</td>
+              <td>{{ t.reporter.username }}</td>
+              <td>{{ t.assignee.username|default:"Unassigned" }}</td>
+              <td class="text-end">{{ t.created_at|date:"d/m/Y H:i" }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="8" class="text-center p-4 text-muted">No tickets found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

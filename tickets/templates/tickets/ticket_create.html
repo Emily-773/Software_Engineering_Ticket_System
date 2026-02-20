@@ -1,0 +1,47 @@
+{% extends "tickets/base.html" %}
+{% block title %}Create Ticket{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h1 class="h4 mb-0">Create Ticket</h1>
+      </div>
+      <div class="card-body">
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.title.id_for_label }}">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}<div class="text-danger small">{{ form.title.errors }}</div>{% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.description.id_for_label }}">Description</label>
+            {{ form.description }}
+            {% if form.description.errors %}<div class="text-danger small">{{ form.description.errors }}</div>{% endif %}
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ form.category.id_for_label }}">Category</label>
+              {{ form.category }}
+              {% if form.category.errors %}<div class="text-danger small">{{ form.category.errors }}</div>{% endif %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="{{ form.priority.id_for_label }}">Priority</label>
+              {{ form.priority }}
+              {% if form.priority.errors %}<div class="text-danger small">{{ form.priority.errors }}</div>{% endif %}
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Create Ticket</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

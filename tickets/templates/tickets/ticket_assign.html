@@ -1,0 +1,28 @@
+{% extends "tickets/base.html" %}
+{% block title %}Assign Technician{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h1 class="h5 mb-0">Assign Technician — Ticket #{{ ticket.id }}</h1>
+      </div>
+      <div class="card-body">
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.technician.id_for_label }}">Technician</label>
+            {{ form.technician }}
+            {% if form.technician.errors %}<div class="text-danger small">{{ form.technician.errors }}</div>{% endif %}
+          </div>
+
+          <button class="btn btn-primary" type="submit">Assign</button>
+          <a class="btn btn-outline-secondary" href="{% url 'ticket_detail' ticket.id %}">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
