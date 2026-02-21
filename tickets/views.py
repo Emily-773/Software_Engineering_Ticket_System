@@ -111,36 +111,57 @@ def ticket_detail(request, ticket_id: int):
 def ticket_assign_technician(request, ticket_id: int):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
-    if not user_has_role(request.user, RoleName.ADMIN):
+    # Allow superuser OR Admin role
+    if not (request.user.is_superuser or user_has_role(request.user, RoleName.ADMIN)):
         raise PermissionDenied("Only Admin can assign technicians.")
 
+    # Keep your original idea: technicians by role OR staff users
     tech_qs = User.objects.filter(
         Q(user_role__role__role_name=RoleName.TECHNICIAN) | Q(is_staff=True)
     ).distinct().order_by("username")
+
+    # If no technicians exist, don't crash / don't show empty form
+    if not tech_qs.exists():
+        messages.error(
+            request,
+            "No technicians are available to assign. Create a technician user (or set a user as staff/technician role) first."
+        )
+        return redirect("ticket_detail", ticket_id=ticket.id)
 
     if request.method == "POST":
         form = AssignTechnicianForm(request.POST, tech_qs=tech_qs)
         if form.is_valid():
             technician = form.cleaned_data["technician"]
 
-            with transaction.atomic():
-                if not ticket.can_transition_to(TicketStatus.OPEN):
-                    raise ValidationError(f"Ticket cannot transition to Open from {ticket.status}")
-
-                from_status = ticket.status
-                ticket.assign_technician(technician, request.user)
-                ticket.change_status(TicketStatus.OPEN, request.user)
-                ticket.save()
-
-                StatusHistory.objects.create(
-                    ticket=ticket,
-                    from_status=from_status,
-                    to_status=TicketStatus.OPEN,
-                    changed_by=request.user,
+            # Avoid 500s: show a message if the ticket cannot transition
+            if not ticket.can_transition_to(TicketStatus.OPEN):
+                messages.error(
+                    request,
+                    f"Cannot assign technician because the ticket cannot move to Open from '{ticket.status}'."
                 )
+                return redirect("ticket_detail", ticket_id=ticket.id)
 
-            messages.success(request, f"Assigned {technician.username} and set status to Open.")
-            return redirect("ticket_detail", ticket_id=ticket.id)
+            try:
+                with transaction.atomic():
+                    from_status = ticket.status
+                    ticket.assign_technician(technician, request.user)
+                    ticket.change_status(TicketStatus.OPEN, request.user)
+                    ticket.save()
+
+                    StatusHistory.objects.create(
+                        ticket=ticket,
+                        from_status=from_status,
+                        to_status=TicketStatus.OPEN,
+                        changed_by=request.user,
+                    )
+
+                messages.success(request, f"Assigned {technician.username} and set status to Open.")
+                return redirect("ticket_detail", ticket_id=ticket.id)
+
+            except Exception as e:
+                # Last-resort safety: never 500 the user in production
+                messages.error(request, f"Assign failed: {e}")
+                return redirect("ticket_detail", ticket_id=ticket.id)
     else:
         form = AssignTechnicianForm(tech_qs=tech_qs)
 
