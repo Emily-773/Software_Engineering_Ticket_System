@@ -114,7 +114,9 @@ def ticket_assign_technician(request, ticket_id: int):
     if not user_has_role(request.user, RoleName.ADMIN):
         raise PermissionDenied("Only Admin can assign technicians.")
 
-    tech_qs = User.objects.filter(user_role__role__role_name=RoleName.TECHNICIAN).order_by("username")
+    tech_qs = User.objects.filter(
+        Q(user_role__role__role_name=RoleName.TECHNICIAN) | Q(is_staff=True)
+    ).distinct().order_by("username")
 
     if request.method == "POST":
         form = AssignTechnicianForm(request.POST, tech_qs=tech_qs)

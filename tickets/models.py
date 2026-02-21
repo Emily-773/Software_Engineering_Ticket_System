@@ -40,10 +40,15 @@ class UserRole(models.Model):
 
 
 def user_has_role(user, role_name: str) -> bool:
+    # Allow Django superusers to act as Admin in the app (important for Render demo)
+    if getattr(user, "is_superuser", False) and role_name == RoleName.ADMIN:
+        return True
+
     return hasattr(user, "user_role") and user.user_role.role.role_name == role_name
 
 
 class Category(models.Model):
+    ...
     name = models.CharField(max_length=80, unique=True)
     is_active = models.BooleanField(default=True)
 
