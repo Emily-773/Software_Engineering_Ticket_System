@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dacecff-9f76-4bf3-8acb-46be5e18aa0c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/tickets/management/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tickets/management/commands/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tickets/management/commands/ensure_superuser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Software_Engineering_Ticket_System" beforeDir="false" afterPath="$PROJECT_DIR$/Software_Engineering_Ticket_System" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,8 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -28,12 +30,12 @@
     &quot;assignee&quot;: &quot;Emily-773&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Emily-773/Software_Engineering_Ticket_System.git",
-    "accountId": "892f0818-82d2-4e34-9110-87e22ec775e6"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Emily-773/Software_Engineering_Ticket_System.git&quot;,
+    &quot;accountId&quot;: &quot;892f0818-82d2-4e34-9110-87e22ec775e6&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -101,7 +103,8 @@
       <updated>1771495914971</updated>
       <workItem from="1771495916100" duration="11988000" />
       <workItem from="1771626072483" duration="4066000" />
-      <workItem from="1771703181473" duration="3868000" />
+      <workItem from="1771703181473" duration="4862000" />
+      <workItem from="1771713646189" duration="565000" />
     </task>
     <servers />
   </component>
