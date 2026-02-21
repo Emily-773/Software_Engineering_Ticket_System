@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dacecff-9f76-4bf3-8acb-46be5e18aa0c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitinore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitinore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets/fixtures/seed.json" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/fixtures/seed.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Software_Engineering_Ticket_System" beforeDir="false" afterPath="$PROJECT_DIR$/Software_Engineering_Ticket_System" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket_system/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ticket_system/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket_system/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ticket_system/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,15 +24,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Emily-773"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Emily-773&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/Emily-773/Software_Engineering_Ticket_System",
+    "url": "https://github.com/Emily-773/Software_Engineering_Ticket_System.git",
     "accountId": "892f0818-82d2-4e34-9110-87e22ec775e6"
   }
 }]]></component>
@@ -42,21 +44,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "ai.playground.ignore.import.keys.banner.in.settings": "true",
-    "git-widget-placeholder": "main",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="ticket_system" type="Python.DjangoServer" factoryName="Django server">
       <module name="ticket_system" />
@@ -100,7 +102,8 @@
       <option name="presentableId" value="Default" />
       <updated>1771495914971</updated>
       <workItem from="1771495916100" duration="11988000" />
-      <workItem from="1771626072483" duration="3190000" />
+      <workItem from="1771626072483" duration="4066000" />
+      <workItem from="1771703181473" duration="1188000" />
     </task>
     <servers />
   </component>
