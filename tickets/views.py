@@ -3,12 +3,11 @@ from django.shortcuts import render
 # Create your views here.
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
-from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth import get_user_model
 
 from .forms import TicketCreateForm, AssignTechnicianForm
 from .models import (
@@ -104,7 +103,8 @@ def ticket_create(request):
 @login_required
 def ticket_detail(request, ticket_id: int):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
-    return render(request, "tickets/ticket_detail.html", {"ticket": ticket})
+    is_admin = request.user.is_superuser or user_has_role(request.user, RoleName.ADMIN)
+    return render(request, "tickets/ticket_detail.html", {"ticket": ticket, "is_admin": is_admin})
 
 
 @login_required
@@ -120,7 +120,6 @@ def ticket_assign_technician(request, ticket_id: int):
         Q(user_role__role__role_name=RoleName.TECHNICIAN) | Q(is_staff=True)
     ).distinct().order_by("username")
 
-    # If no technicians exist, don't crash / don't show empty form
     if not tech_qs.exists():
         messages.error(
             request,
@@ -133,33 +132,42 @@ def ticket_assign_technician(request, ticket_id: int):
         if form.is_valid():
             technician = form.cleaned_data["technician"]
 
-            # Avoid 500s: show a message if the ticket cannot transition
-            if not ticket.can_transition_to(TicketStatus.OPEN):
+            # Allow (re)assignment only when NEW or OPEN
+            if ticket.status not in (TicketStatus.NEW, TicketStatus.OPEN):
                 messages.error(
                     request,
-                    f"Cannot assign technician because the ticket cannot move to Open from '{ticket.status}'."
+                    f"Cannot (re)assign technician while ticket is '{ticket.status}'."
                 )
                 return redirect("ticket_detail", ticket_id=ticket.id)
 
             try:
                 with transaction.atomic():
                     from_status = ticket.status
+
+                    # Always assign/reassign technician
                     ticket.assign_technician(technician, request.user)
-                    ticket.change_status(TicketStatus.OPEN, request.user)
+
+                    # Only transition NEW -> OPEN (and write StatusHistory) on first assignment
+                    if ticket.status == TicketStatus.NEW:
+                        ticket.change_status(TicketStatus.OPEN, request.user)
+
+                        StatusHistory.objects.create(
+                            ticket=ticket,
+                            from_status=from_status,
+                            to_status=TicketStatus.OPEN,
+                            changed_by=request.user,
+                        )
+
+                        messages.success(request, f"Assigned {technician.username} and set status to Open.")
+                    else:
+                        # Already OPEN — reassignment only (no status change, no StatusHistory)
+                        messages.success(request, f"Reassigned ticket to {technician.username}.")
+
                     ticket.save()
 
-                    StatusHistory.objects.create(
-                        ticket=ticket,
-                        from_status=from_status,
-                        to_status=TicketStatus.OPEN,
-                        changed_by=request.user,
-                    )
-
-                messages.success(request, f"Assigned {technician.username} and set status to Open.")
                 return redirect("ticket_detail", ticket_id=ticket.id)
 
             except Exception as e:
-                # Last-resort safety: never 500 the user in production
                 messages.error(request, f"Assign failed: {e}")
                 return redirect("ticket_detail", ticket_id=ticket.id)
     else:

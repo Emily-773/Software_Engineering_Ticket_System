@@ -1,4 +1,5 @@
 {% extends "tickets/base.html" %}
+
 {% block title %}Ticket #{{ ticket.id }}{% endblock %}
 
 {% block content %}
@@ -10,7 +11,14 @@
 
   <div class="d-flex gap-2">
     <a class="btn btn-outline-secondary" href="{% url 'ticket_list' %}">Back to Tickets</a>
-    <a class="btn btn-warning" href="{% url 'ticket_assign' ticket.id %}">Assign Technician</a>
+
+    {% if is_admin %}
+      {% if ticket.status == "New" or ticket.status == "Open" %}
+        <a class="btn btn-warning" href="{% url 'ticket_assign' ticket.id %}">
+          Assign / Reassign Technician
+        </a>
+      {% endif %}
+    {% endif %}
   </div>
 </div>
 
@@ -34,7 +42,9 @@
       <div class="card-body">
         <dl class="row mb-0">
           <dt class="col-5">Status</dt>
-          <dd class="col-7"><span class="badge bg-info text-dark">{{ ticket.status }}</span></dd>
+          <dd class="col-7">
+            <span class="badge bg-info text-dark">{{ ticket.status }}</span>
+          </dd>
 
           <dt class="col-5">Reporter</dt>
           <dd class="col-7">{{ ticket.reporter.username }}</dd>

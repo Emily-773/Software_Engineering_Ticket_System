@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db import models
 from django.utils import timezone
 
 
@@ -32,7 +32,11 @@ class UserRole(models.Model):
     """
     Links Django's built-in User to exactly one Role (matches your UML).
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_role")
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="user_role",
+    )
     role = models.ForeignKey(Role, on_delete=models.PROTECT, related_name="users")
 
     def __str__(self) -> str:
@@ -48,7 +52,6 @@ def user_has_role(user, role_name: str) -> bool:
 
 
 class Category(models.Model):
-    ...
     name = models.CharField(max_length=80, unique=True)
     is_active = models.BooleanField(default=True)
 
@@ -68,7 +71,11 @@ class Ticket(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField()
 
-    status = models.CharField(max_length=20, choices=TicketStatus.choices, default=TicketStatus.NEW)
+    status = models.CharField(
+        max_length=20,
+        choices=TicketStatus.choices,
+        default=TicketStatus.NEW,
+    )
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -76,11 +83,18 @@ class Ticket(models.Model):
 
     # reporter (mandatory)
     reporter = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="reported_tickets"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name="reported_tickets",
     )
+
     # assignee (optional 0..1)
     assignee = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True, related_name="assigned_tickets"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="assigned_tickets",
     )
 
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
@@ -116,8 +130,18 @@ class Ticket(models.Model):
         self.status = new_status
 
     def assign_technician(self, technician, assigned_by) -> None:
+        """
+        Allows assignment/reassignment ONLY while ticket is active:
+        - NEW: allowed (usually transitions to OPEN in the view)
+        - OPEN: allowed (reassign, status stays OPEN)
+        Blocks other states (IN_PROGRESS/RESOLVED/CLOSED/REOPENED).
+        """
         if not user_has_role(technician, RoleName.TECHNICIAN):
             raise ValidationError("Assignee must have Technician role.")
+
+        if self.status not in (TicketStatus.NEW, TicketStatus.OPEN):
+            raise ValidationError("Ticket cannot be (re)assigned in its current status.")
+
         self.assignee = technician
         self.assigned_at = timezone.now()
 
