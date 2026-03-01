@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dacecff-9f76-4bf3-8acb-46be5e18aa0c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/static/images/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Software_Engineering_Ticket_System" beforeDir="false" afterPath="$PROJECT_DIR$/Software_Engineering_Ticket_System" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ticket_system/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ticket_system/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets/templates/tickets/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/templates/tickets/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets/templates/tickets/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/templates/tickets/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +118,7 @@
       <workItem from="1771881750272" duration="1653000" />
       <workItem from="1771927580986" duration="4049000" />
       <workItem from="1772306726392" duration="118000" />
-      <workItem from="1772391862244" duration="544000" />
+      <workItem from="1772391862244" duration="2590000" />
     </task>
     <servers />
   </component>

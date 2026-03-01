@@ -1,4 +1,6 @@
 {% extends "tickets/base.html" %}
+{% load static %}
+
 {% block title %}Login{% endblock %}
 
 {% block content %}
@@ -8,7 +10,14 @@
       <div class="card-header">
         <h1 class="h5 mb-0">Login</h1>
       </div>
+
       <div class="card-body">
+
+<div class="text-center mb-4">
+  <img src="{% static 'images/logo.png' %}"
+       alt="NexDesk Solutions logo"
+       style="max-height: 135px; width: auto;">
+</div>
         <form method="post" novalidate>
           {% csrf_token %}
 
@@ -28,6 +37,7 @@
 
           <button class="btn btn-primary w-100" type="submit">Sign in</button>
         </form>
+
       </div>
     </div>
   </div>

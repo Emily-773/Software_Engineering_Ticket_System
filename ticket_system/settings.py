@@ -101,7 +101,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 # Tell Django where your development static folder is
 STATICFILES_DIRS = [
