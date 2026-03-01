@@ -102,11 +102,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
+
+# Tell Django where your development static folder is
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# Where collected static files go in production (Render)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # WhiteNoise storage (hashed file names for caching in production)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 
 # Auth redirects
 LOGIN_URL = "login"
